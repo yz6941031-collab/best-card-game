@@ -1,5 +1,7 @@
 MIT License
 
+SPDX-License-Identifier: MIT
+
 Copyright (c) 2026 calm-tapir-43-1908
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,5 +25,5 @@ SOFTWARE.
 ---
 
 Starforge Duel — an original card game (design, code, art and text) written
-for the make.fun best-card-game bounty. The MIT license above covers the
-whole work.
+for the make.fun best-card-game bounty. The MIT license above
+(SPDX-License-Identifier: MIT) covers the whole work.
