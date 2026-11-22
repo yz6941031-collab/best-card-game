@@ -7,19 +7,27 @@
 // numbers and the table shake are presentations of engine events — they
 // are thrown after the state has already changed, never instead of it.
 
-import { SUITS } from './cards.js';
+import { SUITS, cardById } from './cards.js';
 import { MAX_HP } from './engine.js';
 import { describeIntent } from './ai.js';
 
 const $ = (id) => document.getElementById(id);
 
-/** Inline SVG per suit: flame, shard, bolt, leaf — shapes, never letters. */
-export const SUIT_ICONS = {
-  ember: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.8c.9 3.9-2.9 5.2-2.9 8.1a2.9 2.9 0 0 0 5.8 0c0-.9-.4-1.7-.4-1.7s2.9 1.6 2.9 4.8a5.4 5.4 0 0 1-10.8 0C6.6 6.9 10.9 5.7 12 1.8z"/></svg>',
-  frost: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.5 19.5 9 12 22.5 4.5 9Z"/><path d="M4.5 9h15M12 1.5 8.8 9 12 22.5 15.2 9 12 1.5" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.1"/></svg>',
-  storm: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M13 1.5 4.5 13.8h5.7L8.2 22.5l9.5-13h-5.9L13 1.5z"/></svg>',
-  grove: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.5 3.5C11 3.5 4 10 3.8 20.2 14 20 20.5 13 20.5 3.5Z"/><path d="M4.2 19.8C7.6 13.4 13 8 19.8 4.2" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/></svg>',
+/**
+ * Painted art per suit, drawn large in each card's art panel: a layered
+ * flame with sparks, a crystal cluster, a bolt through storm clouds, a
+ * rooted sprout. Shapes and colour, never letters — the suits stay told
+ * apart even for colour-blind players.
+ */
+export const CARD_ART = {
+  ember: '<svg viewBox="0 0 48 48"><path fill="#ff7847" d="M24 3c1.8 7.8-5.8 10.4-5.8 16.2a5.8 5.8 0 0 0 11.6 0c0-1.8-.8-3.4-.8-3.4s5.8 3.2 5.8 9.6a10.8 10.8 0 0 1-21.6 0C13.2 13.8 21.8 11.4 24 3z"/><path fill="#ffb35c" d="M24 17c1 4.4-3.4 6-3.4 9.6a3.4 3.4 0 0 0 6.8 0c0-2.8-2.4-4.4-3.4-9.6z"/><path fill="#fff3cf" d="M24 27.5c.6 2.4-1.8 3.2-1.8 5.2a1.8 1.8 0 0 0 3.6 0c0-1.6-1.2-2.4-1.8-5.2z"/><circle cx="10" cy="14" r="1.6" fill="#ffd97a"/><circle cx="38" cy="11" r="1.3" fill="#ffd97a"/><circle cx="35" cy="36" r="1.1" fill="#ffb35c"/></svg>',
+  frost: '<svg viewBox="0 0 48 48"><path fill="#5ec8ff" d="M24 2 33 17 24 46 15 17Z"/><path fill="#8fd8ff" d="M10 12 17 22 13 38 6 24Z"/><path fill="#8fd8ff" d="M38 12 31 22 35 38 42 24Z"/><path d="M15 17h18M24 2 19.5 17 24 46 28.5 17 24 2" fill="none" stroke="rgba(255,255,255,.65)" stroke-width="1.3"/><path d="M40 4v6M37 7h6" stroke="#dff4ff" stroke-width="1.6" stroke-linecap="round"/><path d="M7 32v5M4.5 34.5h5" stroke="#dff4ff" stroke-width="1.4" stroke-linecap="round"/></svg>',
+  storm: '<svg viewBox="0 0 48 48"><ellipse cx="17" cy="11" rx="9" ry="5" fill="#8a63d2" opacity=".8"/><ellipse cx="31" cy="9" rx="10" ry="5.5" fill="#a86bff" opacity=".75"/><path fill="#ffd97a" d="M27 6 12 29h9.5L17 44 36 19H25.5L27 6z"/><path fill="#c99aff" d="M38 24l-6.5 9.5h4L33 41l8-10.5h-4.5L38 24z"/></svg>',
+  grove: '<svg viewBox="0 0 48 48"><path d="M24 44c0-8-1-14 0-22" fill="none" stroke="#7fe08a" stroke-width="3" stroke-linecap="round"/><path fill="#7fe08a" d="M23 24C14 24 8 18 7.5 8.5 17 9 23 14.5 23 24z"/><path fill="#a5ecab" d="M25 20c.5-8 5.5-13 13.5-13.5C38 15.5 33 20.5 25 20z"/><path fill="#5cb96a" d="M23.5 31c-5-.5-8.5-3.5-9.5-8.5 5 .5 8.5 3.5 9.5 8.5z"/><path d="M24 44c-2.5 1.5-5 2-8 1.5M24 44c2.5 1.5 5 2 8 1.5M24 44v3" fill="none" stroke="#b98a4a" stroke-width="2.2" stroke-linecap="round"/><circle cx="38" cy="30" r="1.6" fill="#d8ffd0"/><circle cx="10" cy="36" r="1.3" fill="#d8ffd0"/></svg>',
 };
+
+/** The forge emblem stamped on every card back: ring, star, anvil. */
+const BACK_EMBLEM = '<svg class="back-emblem" viewBox="0 0 48 48"><circle cx="24" cy="22" r="15.5" fill="none" stroke="#e8a91c" stroke-width="2"/><circle cx="24" cy="22" r="12" fill="none" stroke="rgba(232,169,28,.5)" stroke-width="1"/><path d="M24 11l2.7 7.3L34.5 21l-7.8 2.7L24 31l-2.7-7.3L13.5 21l7.8-2.7Z" fill="#ffd97a"/><path d="M15 40h18l-2.6 3.4H17.6Z" fill="#e8a91c"/><path d="M19.5 40v-2.6h9V40Z" fill="#e8a91c"/></svg>';
 
 const VALUE_LABELS = { damage: 'DAMAGE', shield: 'SHIELD', heal: 'HEAL', energy: 'ENERGY' };
 
@@ -38,12 +46,14 @@ export function cardElement(card, options = {}) {
   el.className = `card suit-${card.suit}`;
   el.dataset.uid = String(card.uid);
   const { big, label } = valueMarkup(card);
-  let html = `<div class="cost${card.cost === 0 ? ' free' : ''}">${card.cost}</div>`;
+  let html = `<div class="cost${card.cost === 0 ? ' free' : ''}"><span>${card.cost}</span></div>`;
   if (options.resonanceArmed) html += '<div class="resonance-badge">+2</div>';
-  html += `<div class="suit-icon" style="color:${SUITS[card.suit].deep}">${SUIT_ICONS[card.suit]}</div>`;
-  html += `<div class="value">${big}</div><div class="value-label">${label}</div>`;
+  html += `<div class="art">${CARD_ART[card.suit]}</div>`;
+  html += `<div class="value-row"><span class="value">${big}</span><span class="value-label">${label}</span></div>`;
   html += `<div class="card-name">${card.name}</div><div class="card-text">${card.text}</div>`;
+  html += `<div class="suit-name">${SUITS[card.suit].name.toUpperCase()}</div>`;
   el.innerHTML = html;
+  if (options.playable) el.classList.add('playable');
   if (options.playable === false) el.classList.add('unplayable');
   if (options.dealtIndex !== undefined && options.dealtIndex !== null) {
     el.classList.add('dealt');
@@ -57,7 +67,7 @@ export function cardBackElement(tiltDeg) {
   const el = document.createElement('div');
   el.className = 'card back';
   el.style.setProperty('--tilt', `${tiltDeg}deg`);
-  el.innerHTML = '<svg class="back-star" viewBox="0 0 48 48"><path d="M24 5l4.8 13.2L43 23l-14.2 4.8L24 41l-4.8-13.2L5 23l14.2-4.8Z" fill="#c99aff" opacity="0.85"/></svg>';
+  el.innerHTML = BACK_EMBLEM;
   return el;
 }
 
@@ -72,6 +82,14 @@ function renderDuelist(state, who) {
   const pct = Math.max(0, (d.hp / MAX_HP) * 100);
   fill.style.width = `${pct}%`;
   fill.className = `hp-fill${pct <= 30 ? ' low' : pct <= 60 ? ' mid' : ''}`;
+  const bar = fill.parentElement;
+  const prevHp = fill.dataset.prev === undefined ? null : Number(fill.dataset.prev);
+  if (prevHp !== null && d.hp < prevHp) {
+    bar.classList.remove('hit');
+    void bar.offsetWidth;
+    bar.classList.add('hit');
+  }
+  fill.dataset.prev = String(d.hp);
   $(`${who}-hp-text`).textContent = `${d.hp} / ${MAX_HP} HP`;
   const shield = $(`${who}-shield`);
   shield.textContent = `SHIELD ${d.shield}`;
@@ -86,6 +104,27 @@ function renderDuelist(state, who) {
   $(`${who}-piles`).textContent = `Deck ${d.deck.length} · Discard ${d.discard.length} · Hand ${d.hand.length}`;
 }
 
+/** Refresh one duelist's deck stack and discard pile at the arena's edge. */
+function renderPiles(state, who) {
+  const d = who === 'player' ? state.player : state.warden;
+  $(`${who}-deck-count`).textContent = String(d.deck.length);
+  $(`${who}-discard-count`).textContent = String(d.discard.length);
+  const top = $(`${who}-discard-pile`);
+  const topCard = d.discard[d.discard.length - 1];
+  if (topCard) {
+    const suit = SUITS[topCard.suit];
+    top.className = `pile-stack discard-stack has-card suit-${topCard.suit}`;
+    top.style.borderColor = suit.color;
+    top.style.background = `linear-gradient(165deg, ${suit.deep}33, rgba(14,10,28,.85))`;
+    top.innerHTML = `<span class="mini-value" style="color:${suit.color}">${topCard.amount}</span><span class="mini-label">${topCard.name.toUpperCase()}</span>`;
+  } else {
+    top.className = 'pile-stack discard-stack';
+    top.style.borderColor = '';
+    top.style.background = '';
+    top.innerHTML = '';
+  }
+}
+
 /**
  * Draw the whole table. `ui` carries presentation-only facts:
  * { dealtRound } — when it equals state.round, hand cards animate in.
@@ -93,6 +132,9 @@ function renderDuelist(state, who) {
 export function render(state, ui = {}) {
   renderDuelist(state, 'player');
   renderDuelist(state, 'warden');
+  renderPiles(state, 'player');
+  renderPiles(state, 'warden');
+  $('round-banner').textContent = `ROUND ${state.round}`;
 
   const wardenHand = $('warden-hand');
   wardenHand.innerHTML = '';
@@ -171,9 +213,56 @@ export function shakeTable() {
   stage.classList.add('shake');
 }
 
+/** Laurel-and-trophy for a win; a cracked crest for a loss. */
+const VICTORY_EMBLEM = `<svg viewBox="0 0 120 120">
+  <g fill="#e8a91c">
+    <ellipse cx="26" cy="86" rx="5" ry="10" transform="rotate(-38 26 86)"/>
+    <ellipse cx="18" cy="66" rx="5" ry="10" transform="rotate(-62 18 66)"/>
+    <ellipse cx="18" cy="45" rx="5" ry="10" transform="rotate(-84 18 45)"/>
+    <ellipse cx="27" cy="27" rx="5" ry="10" transform="rotate(-112 27 27)"/>
+    <ellipse cx="94" cy="86" rx="5" ry="10" transform="rotate(38 94 86)"/>
+    <ellipse cx="102" cy="66" rx="5" ry="10" transform="rotate(62 102 66)"/>
+    <ellipse cx="102" cy="45" rx="5" ry="10" transform="rotate(84 102 45)"/>
+    <ellipse cx="93" cy="27" rx="5" ry="10" transform="rotate(112 93 27)"/>
+  </g>
+  <path d="M28 98C16 80 14 52 26 30M92 98c12-18 14-46 2-68" fill="none" stroke="#c98412" stroke-width="3" stroke-linecap="round"/>
+  <path d="M40 26h40c0 17-8 28-17 31v7h-6v-7C48 54 40 43 40 26z" fill="#f2b93c" stroke="#ffe9a8" stroke-width="2"/>
+  <path d="M40 32c-8-1-12-6-12-13h12M80 32c8-1 12-6 12-13H80" fill="none" stroke="#f2b93c" stroke-width="4"/>
+  <path d="M60 33l2.2 5.4 5.8.4-4.4 3.8 1.4 5.7-5-3.2-5 3.2 1.4-5.7L52 38.8l5.8-.4z" fill="#fff3cf"/>
+  <rect x="52" y="70" width="16" height="6" fill="#f2b93c"/>
+  <rect x="42" y="78" width="36" height="7" rx="2.5" fill="#f2b93c" stroke="#ffe9a8" stroke-width="1.5"/>
+  <path d="M60 92l3.4 6.8 7.5 1-5.4 5.2 1.3 7.4L60 109l-6.8 3.4 1.3-7.4-5.4-5.2 7.5-1z" fill="#ffd97a"/>
+</svg>`;
+
+const DEFEAT_EMBLEM = `<svg viewBox="0 0 120 120">
+  <path d="M60 10 98 24v34c0 27-16 42-38 52C38 100 22 85 22 58V24Z" fill="#3d3757" stroke="#8f87ad" stroke-width="2.5"/>
+  <path d="M60 24l4.5 9.5 10.4 1.4-7.6 7.2 2 10.2L60 47l-9.3 5.3 2-10.2-7.6-7.2 10.4-1.4z" fill="#8f87ad" opacity=".45"/>
+  <path d="M62 14 52 40l11 13-8 17 6 14-3 20" fill="none" stroke="#0b0916" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M62 14 52 40l11 13-8 17 6 14-3 20" fill="none" stroke="rgba(200,190,235,.35)" stroke-width="1.4" stroke-linecap="round" transform="translate(2.5 0)"/>
+  <path d="M30 96l-7 9M92 92l8 7" stroke="#8f87ad" stroke-width="4" stroke-linecap="round"/>
+</svg>`;
+
+/** Fan five real cards across the title screen, one per suit and a finisher. */
+export function renderTitleFan() {
+  const fan = $('title-fan');
+  if (!fan || fan.childElementCount > 0) return;
+  const picks = ['twin-fangs', 'glacier-wall', 'comet-fall', 'chain-lightning', 'liferoot'];
+  let uid = 9000;
+  for (const id of picks) {
+    const def = cardById(id);
+    if (!def) continue;
+    uid += 1;
+    fan.appendChild(cardElement({ ...def, uid }));
+  }
+}
+
 /** Fill and reveal the end screen from a finished state. */
 export function renderEnd(state) {
   const victory = state.winner === 'player';
+  const screen = $('end-screen');
+  screen.classList.toggle('victory', victory);
+  screen.classList.toggle('defeat', !victory);
+  $('end-emblem').innerHTML = victory ? VICTORY_EMBLEM : DEFEAT_EMBLEM;
   const title = $('end-title');
   title.textContent = victory ? 'VICTORY' : 'DEFEAT';
   title.className = victory ? 'victory' : 'defeat';

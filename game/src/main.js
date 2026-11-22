@@ -5,7 +5,7 @@
 
 import { createGame, startRound, playCard, endPlayerTurn } from './engine.js';
 import { planWardenTurn, executeWardenPlan } from './ai.js';
-import { render, showPlayedCard, floatText, shakeTable, renderEnd, hideEnd } from './render.js';
+import { render, showPlayedCard, floatText, shakeTable, renderEnd, hideEnd, renderTitleFan } from './render.js';
 import { attachInput } from './input.js';
 import {
   unlockAudio, soundPlayCard, soundDamage, soundShield, soundHeal, soundDraw, soundVictory, soundDefeat,
@@ -188,6 +188,7 @@ attachInput({
 // the title screen.
 const params = new URLSearchParams(window.location.search);
 const shotName = params.get('shot');
+renderTitleFan();
 if (shotName) {
   document.getElementById('title-screen').classList.add('hidden');
   stageShot(shotName, controller, Number(params.get('seed') ?? 1));

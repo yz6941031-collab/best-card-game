@@ -10,10 +10,96 @@
 <body>
 <div id="stage">
 
+  <!-- The sky-forge scene: radiant ring, forge silhouette, towers, stars -->
+  <div id="scene" aria-hidden="true">
+    <svg id="scene-art" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="forgeGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffb35c" stop-opacity=".5"/>
+          <stop offset="45%" stop-color="#ff8a3c" stop-opacity=".18"/>
+          <stop offset="100%" stop-color="#ff8a3c" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="fireGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffcf7a" stop-opacity=".85"/>
+          <stop offset="55%" stop-color="#ff8a3c" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="#ff8a3c" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffe9a8"/>
+          <stop offset="55%" stop-color="#e8a91c"/>
+          <stop offset="100%" stop-color="#9a6a0c"/>
+        </linearGradient>
+      </defs>
+      <g fill="#ffffff">
+        <circle cx="88" cy="70" r="1.8" opacity=".8"/><circle cx="212" cy="150" r="1.3" opacity=".5"/>
+        <circle cx="330" cy="58" r="1.6" opacity=".7"/><circle cx="470" cy="120" r="1.2" opacity=".45"/>
+        <circle cx="560" cy="52" r="1.7" opacity=".75"/><circle cx="716" cy="88" r="1.3" opacity=".5"/>
+        <circle cx="838" cy="44" r="1.8" opacity=".8"/><circle cx="962" cy="132" r="1.2" opacity=".45"/>
+        <circle cx="1080" cy="66" r="1.6" opacity=".7"/><circle cx="1196" cy="158" r="1.4" opacity=".55"/>
+        <circle cx="150" cy="250" r="1.2" opacity=".4"/><circle cx="1128" cy="262" r="1.2" opacity=".4"/>
+        <circle cx="402" cy="196" r="1.1" opacity=".35"/><circle cx="884" cy="204" r="1.1" opacity=".35"/>
+      </g>
+      <circle cx="640" cy="392" r="268" fill="url(#forgeGlow)"/>
+      <circle cx="640" cy="392" r="238" fill="none" stroke="rgba(255,210,110,.16)" stroke-width="14"/>
+      <circle cx="640" cy="392" r="206" fill="none" stroke="url(#ringGrad)" stroke-width="3.5" opacity=".85"/>
+      <circle cx="640" cy="392" r="188" fill="none" stroke="rgba(255,233,168,.28)" stroke-width="1.5"/>
+      <g fill="#0d0a22">
+        <polygon points="168,318 252,300 292,330 224,352 178,344"/>
+        <polygon points="996,300 1080,286 1118,322 1046,344 1002,332"/>
+        <polygon points="238,470 300,458 322,482 262,496 240,488"/>
+        <polygon points="962,462 1024,452 1044,478 986,490 964,482"/>
+      </g>
+      <g>
+        <path d="M52 800 L52 486 L76 486 L76 442 L100 442 L100 486 L124 486 L124 800 Z" fill="#0b0820"/>
+        <path d="M1156 800 L1156 486 L1180 486 L1180 442 L1204 442 L1204 486 L1228 486 L1228 800 Z" fill="#0b0820"/>
+        <rect x="80" y="520" width="7" height="10" fill="#ffb35c" opacity=".85"/>
+        <rect x="96" y="566" width="7" height="10" fill="#ffb35c" opacity=".6"/>
+        <rect x="84" y="626" width="7" height="10" fill="#ffcf7a" opacity=".75"/>
+        <rect x="1184" y="520" width="7" height="10" fill="#ffb35c" opacity=".85"/>
+        <rect x="1168" y="580" width="7" height="10" fill="#ffb35c" opacity=".6"/>
+        <rect x="1188" y="640" width="7" height="10" fill="#ffcf7a" opacity=".75"/>
+      </g>
+      <ellipse cx="640" cy="716" rx="220" ry="30" fill="url(#fireGlow)"/>
+      <g fill="#0d0a20" stroke="rgba(255,180,80,.14)" stroke-width="1.5">
+        <rect x="512" y="730" width="256" height="16"/>
+        <rect x="532" y="706" width="216" height="16"/>
+        <rect x="556" y="682" width="168" height="16"/>
+      </g>
+      <path d="M552 640 L606 630 L606 612 L674 612 L674 630 L730 642 L676 652 L668 676 L612 676 L604 652 Z"
+            fill="#0a0718" stroke="rgba(255,190,90,.3)" stroke-width="1.5"/>
+      <ellipse cx="640" cy="772" rx="580" ry="52" fill="#8a7ae0" opacity=".05"/>
+    </svg>
+    <span class="ember-p" style="left:9%;  --s:5px; --d:-1.5s"></span>
+    <span class="ember-p" style="left:17%; --s:4px; --d:-5.2s"></span>
+    <span class="ember-p" style="left:26%; --s:6px; --d:-3.4s"></span>
+    <span class="ember-p" style="left:38%; --s:4px; --d:-7.1s"></span>
+    <span class="ember-p" style="left:47%; --s:5px; --d:-2.6s"></span>
+    <span class="ember-p" style="left:55%; --s:4px; --d:-6.3s"></span>
+    <span class="ember-p" style="left:63%; --s:6px; --d:-4.0s"></span>
+    <span class="ember-p" style="left:71%; --s:4px; --d:-8.2s"></span>
+    <span class="ember-p" style="left:79%; --s:5px; --d:-2.1s"></span>
+    <span class="ember-p" style="left:86%; --s:4px; --d:-5.8s"></span>
+    <span class="ember-p" style="left:93%; --s:5px; --d:-3.9s"></span>
+    <span class="ember-p" style="left:33%; --s:3px; --d:-8.8s"></span>
+  </div>
+
   <!-- The Warden: portrait, health, shield, energy, declared intent -->
   <header id="warden-zone" class="duelist-zone">
     <div class="portrait warden-portrait" aria-hidden="true">
-      <svg viewBox="0 0 48 48"><path d="M24 3 L41 10 V24 C41 35 34 42 24 45 C14 42 7 35 7 24 V10 Z" fill="#2a2140" stroke="#c99aff" stroke-width="2"/><path d="M24 12 L27 21 L36 21 L29 27 L31.5 36 L24 30.5 L16.5 36 L19 27 L12 21 L21 21 Z" fill="#c99aff"/></svg>
+      <svg viewBox="0 0 96 96">
+        <path d="M22 36 C9 32 4 19 6 7 C15 16 23 21 31 24 Z" fill="#241a3f" stroke="#8a63d2" stroke-width="2"/>
+        <path d="M74 36 C87 32 92 19 90 7 C81 16 73 21 65 24 Z" fill="#241a3f" stroke="#8a63d2" stroke-width="2"/>
+        <path d="M48 11 C29 11 21 26 21 44 L21 59 L75 59 L75 44 C75 26 67 11 48 11 Z" fill="#37265e" stroke="#c99aff" stroke-width="2.5"/>
+        <path d="M48 15 L54.5 26 L48 35 L41.5 26 Z" fill="#c99aff"/>
+        <path d="M27 59 L69 59 L65 77 C61 85 55 88 48 88 C41 88 35 85 31 77 Z" fill="#150e28"/>
+        <path d="M29 57.5h38" stroke="rgba(230,204,255,.55)" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="32.5" y="64" width="11.5" height="4.6" rx="2.3" fill="#ffc46b"/>
+        <rect x="52" y="64" width="11.5" height="4.6" rx="2.3" fill="#ffc46b"/>
+        <path d="M38.5 77h19M41 82h14" stroke="rgba(201,154,255,.5)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M12 96 C12 82 23 75 34 73 L34 96 Z" fill="#2a1d4a" stroke="#8a63d2" stroke-width="2"/>
+        <path d="M84 96 C84 82 73 75 62 73 L62 96 Z" fill="#2a1d4a" stroke="#8a63d2" stroke-width="2"/>
+        <path d="M48 79 L55 87 L48 95 L41 87 Z" fill="#a86bff" stroke="#e6ccff" stroke-width="1.4"/>
+      </svg>
     </div>
     <div class="duelist-main">
       <div class="name-row">
@@ -32,13 +118,33 @@
   <!-- The Warden's hand, face down -->
   <div id="warden-hand" class="card-row backs"></div>
 
-  <!-- Centre of the table: the last card played and the battle log -->
+  <!-- Centre of the table: the arena, piles, last card played, battle log -->
   <main id="table-center">
-    <div id="play-area">
-      <div id="forge-emblem" aria-hidden="true">
-        <svg viewBox="0 0 48 48"><path d="M8 30 H40 L36 38 H12 Z" fill="#8a6d3b"/><path d="M14 30 V24 H34 V30 Z" fill="#a8843f"/><path d="M24 4 L26.5 15 L38 15 L29 22 L32 34 L24 27 L16 34 L19 22 L10 15 L21.5 15 Z" fill="#ffd97a"/></svg>
+    <div id="arena">
+      <div id="round-banner">ROUND 1</div>
+      <div class="piles piles-left">
+        <div class="pile">
+          <div class="pile-stack deck-stack" id="player-deck-pile"></div>
+          <div class="pile-label">YOUR DECK <b id="player-deck-count">0</b></div>
+        </div>
+        <div class="pile">
+          <div class="pile-stack discard-stack" id="player-discard-pile"></div>
+          <div class="pile-label">DISCARD <b id="player-discard-count">0</b></div>
+        </div>
       </div>
-      <div id="last-played"></div>
+      <div id="play-area">
+        <div id="last-played"></div>
+      </div>
+      <div class="piles piles-right">
+        <div class="pile">
+          <div class="pile-stack discard-stack" id="warden-discard-pile"></div>
+          <div class="pile-label">DISCARD <b id="warden-discard-count">0</b></div>
+        </div>
+        <div class="pile">
+          <div class="pile-stack deck-stack" id="warden-deck-pile"></div>
+          <div class="pile-label">WARDEN DECK <b id="warden-deck-count">0</b></div>
+        </div>
+      </div>
     </div>
     <div id="battle-log"></div>
   </main>
@@ -49,7 +155,15 @@
   <!-- The player: health, shield, energy and the end-turn button -->
   <footer id="player-zone" class="duelist-zone">
     <div class="portrait player-portrait" aria-hidden="true">
-      <svg viewBox="0 0 48 48"><path d="M24 3 L41 10 V24 C41 35 34 42 24 45 C14 42 7 35 7 24 V10 Z" fill="#14301c" stroke="#7fe08a" stroke-width="2"/><path d="M10 32 H38 L34 36 H14 Z" fill="#7fe08a"/><path d="M17 32 V25 H31 V32 Z" fill="#7fe08a"/><path d="M24 8 L26 15 L33 15 L27.5 19.5 L29.5 27 L24 22.5 L18.5 27 L20.5 19.5 L15 15 L22 15 Z" fill="#ffd97a"/></svg>
+      <svg viewBox="0 0 96 96">
+        <path d="M48 7 C27 7 17 24 18 47 L22 89 L74 89 L78 47 C79 24 69 7 48 7 Z" fill="#1e5c31" stroke="#7fe08a" stroke-width="2.5"/>
+        <path d="M48 19 C33 19 27 32 27 46 C27 61 35 73 48 73 C61 73 69 61 69 46 C69 32 63 19 48 19 Z" fill="#0c1f10"/>
+        <ellipse cx="48" cy="50" rx="13" ry="14" fill="#14301a"/>
+        <circle cx="42.5" cy="48" r="2.7" fill="#ffd97a"/>
+        <circle cx="53.5" cy="48" r="2.7" fill="#ffd97a"/>
+        <path d="M22 89 L30 63 M74 89 L66 63" stroke="#7fe08a" stroke-width="2" opacity=".45" fill="none"/>
+        <path d="M48 75 L54.5 82 L48 89 L41.5 82 Z" fill="#ff7847" stroke="#ffd97a" stroke-width="1.4"/>
+      </svg>
     </div>
     <div class="duelist-main">
       <div class="name-row">
@@ -68,11 +182,43 @@
 
   <!-- Title screen -->
   <div id="title-screen" class="overlay">
-    <div class="title-suits" aria-hidden="true">
-      <span class="title-suit ember"></span><span class="title-suit frost"></span><span class="title-suit storm"></span><span class="title-suit grove"></span>
+    <div class="title-hero">
+      <div class="title-portrait warden-portrait" aria-hidden="true">
+        <svg viewBox="0 0 96 96">
+          <path d="M22 36 C9 32 4 19 6 7 C15 16 23 21 31 24 Z" fill="#241a3f" stroke="#8a63d2" stroke-width="2"/>
+          <path d="M74 36 C87 32 92 19 90 7 C81 16 73 21 65 24 Z" fill="#241a3f" stroke="#8a63d2" stroke-width="2"/>
+          <path d="M48 11 C29 11 21 26 21 44 L21 59 L75 59 L75 44 C75 26 67 11 48 11 Z" fill="#37265e" stroke="#c99aff" stroke-width="2.5"/>
+          <path d="M48 15 L54.5 26 L48 35 L41.5 26 Z" fill="#c99aff"/>
+          <path d="M27 59 L69 59 L65 77 C61 85 55 88 48 88 C41 88 35 85 31 77 Z" fill="#150e28"/>
+          <path d="M29 57.5h38" stroke="rgba(230,204,255,.55)" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="32.5" y="64" width="11.5" height="4.6" rx="2.3" fill="#ffc46b"/>
+          <rect x="52" y="64" width="11.5" height="4.6" rx="2.3" fill="#ffc46b"/>
+          <path d="M38.5 77h19M41 82h14" stroke="rgba(201,154,255,.5)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M12 96 C12 82 23 75 34 73 L34 96 Z" fill="#2a1d4a" stroke="#8a63d2" stroke-width="2"/>
+          <path d="M84 96 C84 82 73 75 62 73 L62 96 Z" fill="#2a1d4a" stroke="#8a63d2" stroke-width="2"/>
+          <path d="M48 79 L55 87 L48 95 L41 87 Z" fill="#a86bff" stroke="#e6ccff" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <div class="title-centre">
+        <div class="title-suits" aria-hidden="true">
+          <span class="title-suit ember"></span><span class="title-suit frost"></span><span class="title-suit storm"></span><span class="title-suit grove"></span>
+        </div>
+        <h1 class="game-title">STARFORGE<br>DUEL</h1>
+        <p class="tagline">A card duel at the last anvil of the sky.<br>Break the Warden, or be unmade.</p>
+      </div>
+      <div class="title-portrait player-portrait" aria-hidden="true">
+        <svg viewBox="0 0 96 96">
+          <path d="M48 7 C27 7 17 24 18 47 L22 89 L74 89 L78 47 C79 24 69 7 48 7 Z" fill="#1e5c31" stroke="#7fe08a" stroke-width="2.5"/>
+          <path d="M48 19 C33 19 27 32 27 46 C27 61 35 73 48 73 C61 73 69 61 69 46 C69 32 63 19 48 19 Z" fill="#0c1f10"/>
+          <ellipse cx="48" cy="50" rx="13" ry="14" fill="#14301a"/>
+          <circle cx="42.5" cy="48" r="2.7" fill="#ffd97a"/>
+          <circle cx="53.5" cy="48" r="2.7" fill="#ffd97a"/>
+          <path d="M22 89 L30 63 M74 89 L66 63" stroke="#7fe08a" stroke-width="2" opacity=".45" fill="none"/>
+          <path d="M48 75 L54.5 82 L48 89 L41.5 82 Z" fill="#ff7847" stroke="#ffd97a" stroke-width="1.4"/>
+        </svg>
+      </div>
     </div>
-    <h1 class="game-title">STARFORGE<br>DUEL</h1>
-    <p class="tagline">A card duel at the last anvil of the sky.<br>Break the Warden, or be unmade.</p>
+    <div id="title-fan" aria-hidden="true"></div>
     <div class="howto">
       <div class="howto-row"><span class="howto-key">30 HP</span><span>First duelist to 0 health falls. Shield soaks damage before health.</span></div>
       <div class="howto-row"><span class="howto-key">ENERGY</span><span>Cards cost energy. It refills and grows every round: 3, 4, 5… up to 8.</span></div>
@@ -85,6 +231,7 @@
 
   <!-- End screen -->
   <div id="end-screen" class="overlay hidden">
+    <div id="end-emblem" aria-hidden="true"></div>
     <h1 id="end-title">VICTORY</h1>
     <p id="end-flavor"></p>
     <div id="end-stats" class="end-stats"></div>
