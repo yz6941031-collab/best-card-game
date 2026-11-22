@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starforge Duel — a card duel at the last anvil of the sky</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='3.5' y='3.5' width='9' height='9' transform='rotate(45 8 8)' fill='%23e8a91c'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/table.css">
+</head>
+<body>
+<div id="stage">
+
+  <!-- The Warden: portrait, health, shield, energy, declared intent -->
+  <header id="warden-zone" class="duelist-zone">
+    <div class="portrait warden-portrait" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><path d="M24 3 L41 10 V24 C41 35 34 42 24 45 C14 42 7 35 7 24 V10 Z" fill="#2a2140" stroke="#c99aff" stroke-width="2"/><path d="M24 12 L27 21 L36 21 L29 27 L31.5 36 L24 30.5 L16.5 36 L19 27 L12 21 L21 21 Z" fill="#c99aff"/></svg>
+    </div>
+    <div class="duelist-main">
+      <div class="name-row">
+        <span class="duelist-name">THE WARDEN</span>
+        <span id="warden-piles" class="pile-count"></span>
+      </div>
+      <div class="hp-bar"><div id="warden-hp-fill" class="hp-fill"></div><span id="warden-hp-text" class="hp-text"></span></div>
+      <div class="meter-row">
+        <span id="warden-shield" class="shield-badge"></span>
+        <span id="warden-energy" class="energy-pips" title="Energy"></span>
+      </div>
+    </div>
+    <div id="intent-banner" class="intent-banner"></div>
+  </header>
+
+  <!-- The Warden's hand, face down -->
+  <div id="warden-hand" class="card-row backs"></div>
+
+  <!-- Centre of the table: the last card played and the battle log -->
+  <main id="table-center">
+    <div id="play-area">
+      <div id="forge-emblem" aria-hidden="true">
+        <svg viewBox="0 0 48 48"><path d="M8 30 H40 L36 38 H12 Z" fill="#8a6d3b"/><path d="M14 30 V24 H34 V30 Z" fill="#a8843f"/><path d="M24 4 L26.5 15 L38 15 L29 22 L32 34 L24 27 L16 34 L19 22 L10 15 L21.5 15 Z" fill="#ffd97a"/></svg>
+      </div>
+      <div id="last-played"></div>
+    </div>
+    <div id="battle-log"></div>
+  </main>
+
+  <!-- The player's hand -->
+  <div id="player-hand" class="card-row hand"></div>
+
+  <!-- The player: health, shield, energy and the end-turn button -->
+  <footer id="player-zone" class="duelist-zone">
+    <div class="portrait player-portrait" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><path d="M24 3 L41 10 V24 C41 35 34 42 24 45 C14 42 7 35 7 24 V10 Z" fill="#14301c" stroke="#7fe08a" stroke-width="2"/><path d="M10 32 H38 L34 36 H14 Z" fill="#7fe08a"/><path d="M17 32 V25 H31 V32 Z" fill="#7fe08a"/><path d="M24 8 L26 15 L33 15 L27.5 19.5 L29.5 27 L24 22.5 L18.5 27 L20.5 19.5 L15 15 L22 15 Z" fill="#ffd97a"/></svg>
+    </div>
+    <div class="duelist-main">
+      <div class="name-row">
+        <span class="duelist-name">YOU — THE CHALLENGER</span>
+        <span id="player-piles" class="pile-count"></span>
+      </div>
+      <div class="hp-bar"><div id="player-hp-fill" class="hp-fill"></div><span id="player-hp-text" class="hp-text"></span></div>
+      <div class="meter-row">
+        <span id="player-shield" class="shield-badge"></span>
+        <span id="player-energy" class="energy-pips" title="Energy"></span>
+        <span id="resonance-tag" class="resonance-tag"></span>
+      </div>
+    </div>
+    <button id="end-turn" type="button">END TURN</button>
+  </footer>
+
+  <!-- Title screen -->
+  <div id="title-screen" class="overlay">
+    <div class="title-suits" aria-hidden="true">
+      <span class="title-suit ember"></span><span class="title-suit frost"></span><span class="title-suit storm"></span><span class="title-suit grove"></span>
+    </div>
+    <h1 class="game-title">STARFORGE<br>DUEL</h1>
+    <p class="tagline">A card duel at the last anvil of the sky.<br>Break the Warden, or be unmade.</p>
+    <div class="howto">
+      <div class="howto-row"><span class="howto-key">30 HP</span><span>First duelist to 0 health falls. Shield soaks damage before health.</span></div>
+      <div class="howto-row"><span class="howto-key">ENERGY</span><span>Cards cost energy. It refills and grows every round: 3, 4, 5… up to 8.</span></div>
+      <div class="howto-row"><span class="howto-key">RESONANCE</span><span>Play two cards of one suit in a row and the second lands +2 stronger.</span></div>
+      <div class="howto-row"><span class="howto-key">INTENT</span><span>The Warden declares its plan each round. Read it. Counter it.</span></div>
+    </div>
+    <button id="start-duel" type="button">BEGIN THE DUEL</button>
+    <p class="controls-line">Mouse: click a card to play it · Keys 1–8 play a card · Enter ends the turn</p>
+  </div>
+
+  <!-- End screen -->
+  <div id="end-screen" class="overlay hidden">
+    <h1 id="end-title">VICTORY</h1>
+    <p id="end-flavor"></p>
+    <div id="end-stats" class="end-stats"></div>
+    <button id="duel-again" type="button">DUEL AGAIN</button>
+  </div>
+
+  <div id="floaters"></div>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
